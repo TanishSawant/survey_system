@@ -1,13 +1,22 @@
 import React, { Component } from "react";
 /* import SimpleStorageContract from "./contracts/SimpleStorage.json"; */
 import getWeb3 from "./getWeb3";
-import SurveyContract from "./contracts/Survey.json"
+import SurveyContract from "./contracts/Survey.json";
 import "./App.css";
 import QuestionStatement from "./components/questionStatement";
-import { AppBar } from "@material-ui/core";
+import CustomAppBar from "./components/CustomAppBar";
+import CustomInput from "./components/CustomInput";
 
 class App extends Component {
-  state = { question: "", web3: null, accounts: null, contract: null, userAddress: ""};
+  state = {
+    question: "",
+    web3: null,
+    accounts: null,
+    contract: null,
+    userAddress: "",
+    userAnswer: "",
+    userHasAnsweredTheQuestion: false,
+  };
 
   componentDidMount = async () => {
     try {
@@ -22,53 +31,85 @@ class App extends Component {
       const deployedNetwork = SurveyContract.networks[networkId];
       const instance = new web3.eth.Contract(
         SurveyContract.abi,
-        deployedNetwork && deployedNetwork.address,
+        deployedNetwork && deployedNetwork.address
       );
-      console.log(accounts)
+      console.log(accounts);
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
       this.setState({ web3, accounts, contract: instance }, this.runExample);
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
-        `Failed to load web3, accounts, or contract. Check console for details.`,
+        `Failed to load web3, accounts, or contract. Check console for details.`
       );
       console.error(error);
     }
   };
 
-  runExample = async () => {
-    const { accounts, contract } = this.state;
-
-    // Stores a given value, 5 by default.
-/*     await contract.methods.set(5).send({ from: accounts[0] }); */
-    console.log("Getting question...")
-    const result = await contract.methods.survey_question().call();
-    console.log(result.toString());
-    // Update state with the result.
-    this.setState({ question : result.toString() });
+  handleChange = (input) => (e) => {
+    this.setState({
+      [input]: e.target.value,
+    });
   };
 
-  onChange = input = e => {
-    this.setState({
-      userAddress : e.target.value,
-    });
-  }
+  buttonClick = async () => {
+    console.log(this.state.userAnswer);
+    const answer_submit_response = await this.state.contract.methods
+      .answerQuestion(this.state.userAnswer)
+      .send({ from: this.state.accounts[0] });
+    console.log(answer_submit_response);
+  };
 
-  onSubmit = e => {
-    e.preventDefault();
-    console.log(this.state.userAddress)
-  }
+  runExample = async () => {
+    try {
+      const getAnswerResponse = await this.state.contract.methods
+        .getAnswer()
+        .call();
+      console.log(getAnswerResponse.toString());
+      this.setState({
+        userAnswer: getAnswerResponse.toString(),
+      });
+    } catch (error) {
+      console.error(error);
+    }
+    const { accounts, contract } = this.state;
+    // Stores a given value, 5 by default.
+    console.log("Creating question...");
+    var questionS = "What is your name?";
+    const question_create_transaction = await contract.methods
+      .setQuestion(questionS)
+      .send({ from: this.state.accounts[0] });
+    console.log(question_create_transaction);
+    console.log("Getting question...");
+    const result = await contract.methods.survey_question().call();
+    console.log(result.toString());
+    const hasAnsweredTheQuestionResponse = await contract.methods
+      .hasAnsweredTheQuestion()
+      .call();
+    console.log(hasAnsweredTheQuestionResponse);
+
+    // Update state with the result.
+    this.setState({
+      question: result.toString(),
+      userHasAnsweredTheQuestion: hasAnsweredTheQuestionResponse,
+    });
+  };
 
   render() {
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
+
     return (
       <div className="App">
-        <AppBar title="Survey" />        
-        <QuestionStatement question = {this.state.question}/>
-        
+        <CustomAppBar accounts={this.state.accounts} />
+        <QuestionStatement question={this.state.question} />
+        <CustomInput
+          handleChange={this.handleChange}
+          onSubmit={this.buttonClick}
+          isDisabled = {this.state.userHasAnsweredTheQuestion}
+        />
+        <h2>Your Answer : {this.state.userAnswer}</h2>
       </div>
     );
   }

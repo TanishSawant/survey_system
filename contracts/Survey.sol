@@ -50,6 +50,10 @@ contract Survey{
         require(usersAnswered[msg.sender] == true, "User has not answered the question");
         _;
     }
+
+    function getAnswer() public view hasAnswered returns(string memory) {
+        return answerBook[msg.sender];
+    }
     
     function updateAnswer(string memory _response) public questionExists hasAnswered{
         answerBook[msg.sender] = _response;
