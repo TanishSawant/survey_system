@@ -35,6 +35,13 @@ contract Survey{
     function changeContractState(bool ch) public onlyOwner{
         paused = ch;
     }
+
+    function isOwner() public view returns(bool) {
+        if(msg.sender == owner){
+            return true;
+        }
+        return false;
+    }
     
     function setQuestion(string memory _question) public onlyOwner{
         survey_question = _question;

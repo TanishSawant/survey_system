@@ -11,17 +11,18 @@ function CustomInput(props) {
   return (
     <div style={styles.root}>
       {props.isDisabled && <h2>You have already answered the question</h2>}
+      {props.ownerRequest && <h2>You are owner of this contract</h2>}
       <TextField
         label="Your answer"
         onChange={props.handleChange("userAnswer")}
-        disabled = {props.isDisabled}
+        disabled = {props.isDisabled || props.ownerRequest}
       />
       <Button
         style={styles.button}
         variant="contained"
         color="primary"
         onClick={handleSubmit}
-        disabled = {props.isDisabled}
+        disabled = {props.isDisabled || props.ownerRequest}
       >
         Submit
       </Button>

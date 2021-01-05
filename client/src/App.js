@@ -16,6 +16,7 @@ class App extends Component {
     userAddress: "",
     userAnswer: "",
     userHasAnsweredTheQuestion: false,
+    userIsOwner : false,
   };
 
   componentDidMount = async () => {
@@ -29,9 +30,10 @@ class App extends Component {
       // Get the contract instance.
       const networkId = await web3.eth.net.getId();
       const deployedNetwork = SurveyContract.networks[networkId];
+      console.log("Deployed network " + deployedNetwork)
       const instance = new web3.eth.Contract(
         SurveyContract.abi,
-        deployedNetwork && deployedNetwork.address
+        deployedNetwork  && deployedNetwork.address 
       );
       console.log(accounts);
       // Set web3, accounts, and contract to the state, and then proceed with an
@@ -73,6 +75,9 @@ class App extends Component {
       console.error(error);
     }
     const { accounts, contract } = this.state;
+
+    const userIsOwnerResponse = await contract.methods.isOwner().call()
+    console.log(`isOwner : ${userIsOwnerResponse}`)
     // Stores a given value, 5 by default.
     console.log("Creating question...");
     var questionS = "What is your name?";
@@ -92,6 +97,7 @@ class App extends Component {
     this.setState({
       question: result.toString(),
       userHasAnsweredTheQuestion: hasAnsweredTheQuestionResponse,
+      userIsOwner : userIsOwnerResponse
     });
   };
 
@@ -108,8 +114,9 @@ class App extends Component {
           handleChange={this.handleChange}
           onSubmit={this.buttonClick}
           isDisabled = {this.state.userHasAnsweredTheQuestion}
+          ownerRequest = {this.state.userIsOwner}
         />
-        <h2>Your Answer : {this.state.userAnswer}</h2>
+        {!this.state.userIsOwner && <h2>Your Answer : {this.state.userAnswer}</h2>}
       </div>
     );
   }
