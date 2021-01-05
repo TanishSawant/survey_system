@@ -3,7 +3,7 @@
  <img width=200px height=200px src="https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"></a>
 </p>
 
-<h3 align="center">Project Title</h3>
+<h3 align="center">Survey System Backed By Ethereum Smart Contract.</h3>
 
 <div align="center">
 
