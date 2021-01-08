@@ -15,7 +15,7 @@
 
 ---
 
-<p align="center"> Few lines describing your project.
+<p align="center"> Decentralized Survey System
     <br> 
 </p>
 
