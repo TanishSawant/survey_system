@@ -30,85 +30,48 @@
 - [TODO](../TODO.md)
 - [Contributing](../CONTRIBUTING.md)
 - [Authors](#authors)
-- [Acknowledgments](#acknowledgement)
 
 ## 🧐 About <a name = "about"></a>
 
-Write about 1-2 paragraphs describing the purpose of your project.
+To develop a fast and secure decentralized survey system.
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [deployment](#deployment) for notes on how to deploy the project on a live system.
+Make sure you have truffle installed
+clone the repository and run ``` npm install ```
+Make sure that whilw working with npm, you are inside client folder.
+Run ```truffle develop```
+This will start a small local blockchain.
+Change directory to client and run ```npm start``` or ```yarn start```
+The page will open inside the browser
 
 ### Prerequisites
 
 What things you need to install the software and how to install them.
 
 ```
-Give examples
-```
-
-### Installing
-
-A step by step series of examples that tell you how to get a development env running.
-
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo.
-
-## 🔧 Running the tests <a name = "tests"></a>
-
-Explain how to run the automated tests for this system.
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
+npm install -g truffle
+npm install -g ganache-cli
 ```
 
 ## 🎈 Usage <a name="usage"></a>
 
-Add notes about how to use the system.
+The initial account works as the owner. you can change the accounts to play with contract.
 
 ## 🚀 Deployment <a name = "deployment"></a>
 
-Add additional notes about how to deploy this on a live system.
+Run ```npm run build``` to build the project.
 
 ## ⛏️ Built Using <a name = "built_using"></a>
 
-- [MongoDB](https://www.mongodb.com/) - Database
-- [Express](https://expressjs.com/) - Server Framework
-- [VueJs](https://vuejs.org/) - Web Framework
+- [Truffle](https://www.trufflesuite.com/boxes) - Framework
+- [ReactJs](https://reactjs.org/) - Frontend Framework
 - [NodeJs](https://nodejs.org/en/) - Server Environment
+- [Solidity](https://docs.soliditylang.org/en/v0.8.0/) - Contracts
 
 ## ✍️ Authors <a name = "authors"></a>
 
-- [@kylelobo](https://github.com/kylelobo) - Idea & Initial work
+- [@tanishsawant](https://github.com/TanishSawant/) - Idea & Initial work
 
 See also the list of [contributors](https://github.com/kylelobo/The-Documentation-Compendium/contributors) who participated in this project.
 
-## 🎉 Acknowledgements <a name = "acknowledgement"></a>
-
-- Hat tip to anyone whose code was used
-- Inspiration
-- References
